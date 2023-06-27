@@ -1,3 +1,7 @@
+NOTE: To enable CI actions on forks, you need to navigate to the "actions" tab on your fork, then click "enable actions on fork".  Any 
+commits to your fork's `master` branch afterwrards should trigger the github action on your fork.  Post an issue here if there's
+any difficulty!
+
 # AI Institute for Dynamical Systems - ML Workshop 2023
 [slides](https://docs.google.com/presentation/d/15KVsWfko4CWu30c_59Hss7pz4KbnE7-GR8dUxXfNC2o/edit?usp=sharing)
 
