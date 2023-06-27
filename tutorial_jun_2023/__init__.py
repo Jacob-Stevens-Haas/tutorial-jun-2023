@@ -1,9 +1,9 @@
 from copy import copy
-from typing import Sequence, Optional, Callable
+from typing import Sequence, Optional, Callable, Union
 
 import numpy as np
 
-OtherSliceDef = tuple[int | Callable]
+OtherSliceDef = tuple[Union[int, Callable]]
 SkinnySpecs = Optional[tuple[tuple[int, ...], tuple[OtherSliceDef, ...]]]
 
 
