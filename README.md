@@ -52,6 +52,9 @@ logic of `gridsearch()` to just testing how it deals with `SquaredError` and
 `AbsoluteError` experiments.  When the tests are each < 2 seconds, this CI job
 will turn green.
 
+There's also some low-hanging fruit around indirection and unneccessary
+`isinstance() conditionals.
+
 Disclaimer: 
 Making a problem that is nuanced enough to not be trivial but solveable in a
 short amount of time is pretty tricky.  I may have obscured too much of the
