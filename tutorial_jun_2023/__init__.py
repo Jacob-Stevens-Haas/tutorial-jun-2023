@@ -71,3 +71,30 @@ class Experiment:
 
 AbsoluteError = type("AbsoluteError", (Experiment,), {})
 SquaredError = type("SquaredError", (Experiment,), {})
+
+
+def zip(*iterables, strict=False):
+    """PEP618 zip syntax, made available in 3.10"""
+    if not iterables:
+        return
+    iterators = tuple(iter(iterable) for iterable in iterables)
+    try:
+        while True:
+            items = []
+            for iterator in iterators:
+                items.append(next(iterator))
+            yield tuple(items)
+    except StopIteration:
+        if not strict:
+            return
+    if items:
+        i = len(items)
+        plural = " " if i == 1 else "s 1-"
+        msg = f"zip() argument {i+1} is shorter than argument{plural}{i}"
+        raise ValueError(msg)
+    sentinel = object()
+    for i, iterator in enumerate(iterators[1:], 1):
+        if next(iterator, sentinel) is not sentinel:
+            plural = " " if i == 1 else "s 1-"
+            msg = f"zip() argument {i+1} is longer than argument{plural}{i}"
+            raise ValueError(msg)
