@@ -1,4 +1,6 @@
 # AI Institute for Dynamical Systems - ML Workshop 2023
+[slides](https://docs.google.com/presentation/d/15KVsWfko4CWu30c_59Hss7pz4KbnE7-GR8dUxXfNC2o/edit?usp=sharing)
+
 This is an example repository for my talk on "Software Engineering Best
 Practices for Research".  It's a simple package with one function: gridsearch.
 I wrote the original function for practical work, but this version is heavily
