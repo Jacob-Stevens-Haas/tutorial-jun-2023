@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  Linting:
+  LintingFailsWithoutPrecommit:
     runs-on: ubuntu-latest
     if: always()
 
@@ -25,7 +25,7 @@ jobs:
           pip install black
           black --check .
 
-  Test1:
+  TestsFailIfPyProjectNotSetUp:
     runs-on: ubuntu-latest
     if: always()
 
@@ -38,11 +38,10 @@ jobs:
           python-version: "3.9"
       - name: Run tests
         run: |
-          pip install .
-          pip install pytest
+          pip install .[dev]
           pytest
 
-  Test2:
+  TestsThemselves:
     runs-on: ubuntu-latest
     if: always()
 
@@ -59,4 +58,23 @@ jobs:
           pip install numpy
           pip install pytest
           pytest
+  
+  TestsFailIfSlow:
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      - name: Run tests
+        run: |
+          pip install .
+          pip install numpy
+          pip install pytest
+          pip install pytest-fail-slow
+          pytest --fail-slow 2
   
