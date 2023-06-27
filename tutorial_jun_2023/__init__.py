@@ -13,7 +13,6 @@ def gridsearch(
     grid_vals: list[Sequence],
     other_params: dict,
     experiment,
-    metrics: Optional[Sequence] = ("mse", "mae"),
     skinny_specs: SkinnySpecs = None,
 ):
     curr_other_params = copy(other_params)
@@ -22,11 +21,11 @@ def gridsearch(
     else:
         ind_skinny = tuple(range(len(grid_params)))
         thin_slices = None
-    full_results_shape = (len(metrics), *(len(grid) for grid in grid_vals))
+    full_results_shape = tuple(len(grid) for grid in grid_vals)
     full_results = np.empty(full_results_shape)
     full_results.fill(-np.inf)
     # foo2: gridpoint_selector
-    shape = full_results.shape[1:]
+    shape = full_results.shape
     ndindexer = np.ndindex(shape)
     gridpoint_selector = []
     def ind_checker(multi_index):
@@ -59,8 +58,16 @@ def gridsearch(
         curr_results = experiment.run(
             **curr_other_params, display=False, return_all=True
         )
-        full_results[(slice(None), *ind)] = [
-            curr_results[metric] for metric in metrics
-        ]
-    max_axes = (ind+1 for ind in range(len(full_results_shape[1:])) if ind not in skinny_specs[0])
+        if isinstance(experiment, SquaredError):
+            curr_results **= 2
+        elif isinstance(experiment, AbsoluteError):
+            curr_results = np.abs(curr_results)
+        full_results[ind] = curr_results
+    max_axes = (ind for ind in range(full_results.ndim) if ind not in skinny_specs[0])
     return full_results.max(axis = tuple(max_axes))
+
+class Experiment:
+    pass
+
+AbsoluteError = type("AbsoluteError", (Experiment,), {})
+SquaredError = type("SquaredError", (Experiment,), {})
