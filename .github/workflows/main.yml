@@ -11,6 +11,7 @@ on:
 jobs:
   Linting:
     runs-on: ubuntu-latest
+    if: always()
 
     steps:
       - name: checkout
@@ -23,3 +24,39 @@ jobs:
         run: |
           pip install black
           black --check .
+
+  Test1:
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      - name: Run tests
+        run: |
+          pip install .
+          pip install pytest
+          pytest
+
+  Test2:
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      - name: Run tests
+        run: |
+          pip install .
+          pip install numpy
+          pip install pytest
+          pytest
+  
